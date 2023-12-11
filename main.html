@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ToDo App</title>
+    <link rel="stylesheet" href="main.css">
+</head>
+<body>
+    <div class="login-container">
+        <form id="loginForm" class="login-form">
+            <h2>ToDo App</h2>
+            <label for="username">Create Task:</label>
+            <input type="text" id="username" name="username" required>
+            <button onclick="addTask(event)">Add</button>
+        </form>
+        <div class="logout">
+            <a href="index.html">Log out</a>
+        </div>
+        <div>
+            <ul id="task_list"></ul>
+        </div>
+    </div>
+    <script src="main.js"></script>
+</body>
+</html>
