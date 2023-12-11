@@ -13,8 +13,6 @@ function checkCredentials(email, password) {
       
       if (user) {
         console.log('Credentials are valid.');
-        const userId = user.id;
-        localStorage.setItem('userId', userId);
         window.location.href = 'main.html';
       } else {
         alert('Invalid credentials. Please try again.');
@@ -25,18 +23,12 @@ function checkCredentials(email, password) {
     });
 }
 
-function submitForm(isLogin) {
+function submitForm() {
   const emailInput = document.getElementById('email');
   const passwordInput = document.getElementById('password');
 
   const email = emailInput.value;
   const password = passwordInput.value;
 
-  if (isLogin) {
-    checkCredentials(email, password);
-  } else {
-    const usernameInput = document.getElementById('username');
-    const username = usernameInput.value;
-    signUp(username, email, password);
-  }
+  checkCredentials(email, password);
 }
