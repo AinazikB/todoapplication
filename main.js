@@ -1,38 +1,26 @@
-const apiUrl = 'https://65745d27f941bda3f2afa877.mockapi.io/user';
+const inputBox = document.getElementById("username");
+ const listContainer = document.getElementById("task_list");
 
-document.addEventListener('DOMContentLoaded', function () {
-    const userId = localStorage.getItem('userId');
-    if (userId) {
-      loadTasks(userId);
+ function addTask(event){
+    if(inputBox.value === ''){
+        alert("You must write something!");
     }
-  });
-  
-  function loadTasks(userId) {
-    const listContainer = document.getElementById('task_list');
-  
-    fetch(apiUrl + `/${userId}/tasks`)
-      .then((response) => {
-        if (!response.ok) {
-          throw new Error(`Network response was not ok: ${response.statusText}`);
-        }
-        return response.json();
-      })
-      .then((tasks) => {
-        tasks.forEach((task) => {
-          let li = document.createElement('li');
-          li.innerHTML = task.title;
-          if (task.completed) {
-            li.classList.add('checked');
-          }
-          listContainer.appendChild(li);
-  
-          let span = document.createElement('span');
-          span.innerHTML = '\u00d7';
-          li.appendChild(span);
-        });
-      })
-      .catch((error) => {
-        console.error('Error loading tasks:', error);
-      });
-  }
-  
+    else{
+        let li = document.createElement("li");
+        li.innerHTML = inputBox.value;
+        listContainer.appendChild(li);
+        let span = document.createElement("span");
+        span.innerHTML = "\u00d7";
+        li.appendChild(span);
+    }
+    inputBox.value = "";
+ };
+
+ listContainer.addEventListener("click", function(e){
+    if(e.target.tagName === "LI"){
+        e.target.classList.toggle("checked");
+    }
+    else if(e.target.tagName === "SPAN"){
+        e.target.parentElement.remove()
+    };
+ }, false);
