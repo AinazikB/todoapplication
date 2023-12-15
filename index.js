@@ -13,8 +13,6 @@ function checkCredentials(email, password) {
       
       if (user) {
         console.log('Credentials are valid.');
-        const userId = user.id;
-        localStorage.setItem('userId', userId);
         window.location.href = 'main.html';
       } else {
         alert('Invalid credentials. Please try again.');
