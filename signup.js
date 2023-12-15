@@ -9,7 +9,6 @@ function submitForm() {
     const email = emailInput.value;
     const password = passwordInput.value;
 
-
     const newUser = {
         "name": username,
         "e-mail": email,
@@ -30,6 +29,7 @@ function submitForm() {
         return response.json();
     })
     .then(data => {
+        localStorage.removeItem('userId');
         window.location.href = 'main.html';
     })
     .catch(error => {

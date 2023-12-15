@@ -9,7 +9,7 @@ let dataStructure = {
     completed: false,
 }
 
-console.log(`Айди пользователя - ${localStorage.getItem('userId')}`)
+console.log(`ID of user - ${localStorage.getItem('userId')}`)
 
 function fillDataStructure(dataStructure, title, completed) {
     dataStructure.title = title;
@@ -33,7 +33,7 @@ function addTask(event){
 
 
         let dataToSubmit = fillDataStructure(dataStructure, String(inputBox.value), false);
-        console.log("Отправка данных ", dataToSubmit) 
+        console.log("Sending data ", dataToSubmit) 
         
         fetch(apiToPost, {
             method: 'POST',
@@ -55,7 +55,6 @@ function addTask(event){
     if (e.target.tagName === "LI") {
         e.target.classList.toggle("checked");
         
-        // Получение информации о текущем состоянии завершенности задачи
         async function changeCompletedStatus(target) {
             try {
                 const response = await fetch(`https://65745d27f941bda3f2afa877.mockapi.io/user/${userId}/tasks/${target.id}`, {
@@ -64,15 +63,15 @@ function addTask(event){
                 });
 
                 if (!response.ok) {
-                    throw new Error(`Ошибка HTTP: ${response.status}`);
+                    throw new Error(`Error: ${response.status}`);
                 }
 
                 const data = await response.json();
                 const completedStatus = data.completed;
 
-                console.log("Информация по GET запросу", data);
+                console.log("info about GET", data);
 
-                // Изменение состояния завершенности задачи
+    
                 const responsePut = await fetch(`https://65745d27f941bda3f2afa877.mockapi.io/user/${userId}/tasks/${target.id}`, {
                     method: 'PUT',
                     headers: { 'Content-Type': 'application/json' },
@@ -80,11 +79,11 @@ function addTask(event){
                 });
 
                 if (!responsePut.ok) {
-                    throw new Error(`Ошибка HTTP: ${responsePut.status}`);
+                    throw new Error(`Error: ${responsePut.status}`);
                 }
 
                 const dataPut = await responsePut.json();
-                console.log("Информация по PUT запросу", dataPut);
+                console.log("Info about PUT", dataPut);
             } catch (error) {
                 console.error('Error:', error);
             }
@@ -103,31 +102,47 @@ function addTask(event){
     };
     
 }, false);
+
 function displayTasks() {
-        fetch(apiToPost)
-            .then(response => {
-                if (!response.ok) {
-                    throw new Error(`Network response was not ok: ${response.statusText}`);
+    const userId = localStorage.getItem('userId');
+    const apiUrl = `https://65745d27f941bda3f2afa877.mockapi.io/user/${userId}/tasks`;
+
+    fetch(apiUrl)
+        .then(response => {
+            if (!response.ok) {
+                throw new Error(`Network response was not ok: ${response.statusText}`);
+            }
+            return response.json();
+        })
+        .then(tasks => {
+            listContainer.innerHTML = ''; 
+
+            tasks.forEach(task => {
+                let li = document.createElement("li");
+                li.innerHTML = task.title;
+                li.id = task.id;
+                if (task.completed) {
+                    li.classList.add("checked");
                 }
-                return response.json();
-            })
-            .then(tasks => {
-                tasks.forEach(task => {
-                    let li = document.createElement("li");
-                    li.innerHTML = task.title;
-                    li.id = task.id;
-                    if (task.completed) {
-                        li.classList.add("checked");
-                    }
-    
-                    let span = document.createElement("span");
-                    span.innerHTML = "\u00d7";
-                    li.appendChild(span);
-                    listContainer.appendChild(li);
-                });
-            })
-            .catch(error => {
-                console.error('Error fetching tasks:', error);
+
+                let span = document.createElement("span");
+                span.innerHTML = "\u00d7";
+                li.appendChild(span);
+                listContainer.appendChild(li);
             });
+        })
+        .catch(error => {
+            console.error('Error fetching tasks:', error);
+        });
+}
+
+window.onload = function () {
+    const userId = localStorage.getItem('userId');
+
+    if (userId) {
+        console.log('User is logged in.');
+        displayTasks();
+    } else {
+        console.log('User not logged in.');
     }
-    window.onload = displayTasks;
+};
