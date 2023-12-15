@@ -2,6 +2,9 @@
 
 A simple To-Do application created with HTML, CSS, and JavaScript.
 
+#THIS IS VIDEO TUTORIAL:
+[THIS IS VIDEO TUTORIAL, THIS IS VIDEO TUTORIAL, THIS IS VIDEO TUTORIAl](https://youtu.be/BzWR_0HMpD8?si=H8lcJvPvZ29BSEir)
+
 ## Getting Started
 
 You can access the live application directly: [To-Do Application](https://ainazikb.github.io/todoapplication/)
