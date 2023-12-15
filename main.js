@@ -1,5 +1,5 @@
 const inputBox = document.getElementById("username");
- const listContainer = document.getElementById("task_list");
+const listContainer = document.getElementById("task_list");
 
  function addTask(event){
     if(inputBox.value === ''){
@@ -24,6 +24,7 @@ const inputBox = document.getElementById("username");
         e.target.parentElement.remove()
     };
  }, false);
+
 function displayTasks() {
         fetch(apiToPost)
             .then(response => {
